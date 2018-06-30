@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "run test",
+    "dev": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -16,4 +17,5 @@
     "url": "https://github.com/AthiraGopinath1195/youtube-clone-app/issues"
   },
   "homepage": "https://github.com/AthiraGopinath1195/youtube-clone-app#readme"
+ 
 }
