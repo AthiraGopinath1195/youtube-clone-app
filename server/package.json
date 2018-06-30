@@ -16,6 +16,11 @@
   "bugs": {
     "url": "https://github.com/AthiraGopinath1195/youtube-clone-app/issues"
   },
-  "homepage": "https://github.com/AthiraGopinath1195/youtube-clone-app#readme"
- 
+  "homepage": "https://github.com/AthiraGopinath1195/youtube-clone-app#readme",
+  "dependencies": {
+    "bcrypt": "^2.0.1",
+    "cors": "^2.8.4",
+    "jsonwebtoken": "^8.3.0",
+    "morgan": "^1.9.0"
+  }
 }

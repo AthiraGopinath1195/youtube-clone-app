@@ -1,11 +1,25 @@
 
+
+const jwt = require('jsonwebtoken')
+
+const service = require('../services/user_todo.js')
+const util = require('../utiles/utils_enc.js')
+
 module.exports = {
-  edit: async function (req, res, next) {
+
+  signup: async function (req, res,next) {
     try {
       console.log(req.body)
+      var username = await req.body.username
+      var email = await req.body.email
+      var password = await req.body.password
+      var hash = util.encrypt(password)
+     
+  
+      service.user_insert(req,res,username,email,hash)
     }
-    catch(err){
-      console.log(err)
+    catch (err){
+      res.send(err)
     }
   }
 }

@@ -1,4 +1,4 @@
 module.exports = {
-  url : 'mongodb://donaa:donamol1@ds141720.mlab.com:41720/socialnetwork'
+  url : 'mongodb://donaa:donamol1@ds121371.mlab.com:21371/youtube'
 };
 
