@@ -9,4 +9,7 @@ module.exports = function(app) {
  app.post('/api/signin',async function(req,res,next){
    controller.signin(req,res,next)
  })
+ app.post('/api/edit',async function(req,res,next){
+   
+ })
 }
