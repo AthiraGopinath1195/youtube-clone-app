@@ -7,7 +7,7 @@ const util = require('../utiles/utils_enc.js')
 
 
 module.exports = {
-
+  //---defining the function for signup---
   signup: async function (req, res,next) {
     try {
       console.log(req.body)
@@ -21,7 +21,7 @@ module.exports = {
       res.send(err)
     }
   },
-
+  //---defining the function for adding signin---
   signin: async function(req, res, next){
     try{
       console.log(req.body)
@@ -32,4 +32,26 @@ module.exports = {
       res.send(err)
     }
   },
+  //---defining the function for adding video---
+  add: async function(req, res, next){
+    try{
+      var token = await req.headers['token']
+      var title = await req.body.title
+      var videourl = await req.body.videourl
+      var description = await req.body.description
+      var key = await req.body.key
+      if(!token)
+      {
+        res.json({'status':'400','msg':'token not present'})
+      }
+      else{
+        service.video_add(req, res, next, token, title, videourl, description, key)
+      }
+      
+
+    }
+    catch (err){
+      res.send(err)
+    }
+  }
  } 

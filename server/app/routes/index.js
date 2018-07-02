@@ -6,10 +6,16 @@ module.exports = function(app) {
  app.post('/api/signup', async function(req, res,next) {
    controller.signup(req,res,next)
  }),
+ //---defining the route for user signup---
  app.post('/api/signin',async function(req,res,next){
    controller.signin(req,res,next)
- })
- app.post('/api/edit',async function(req,res,next){
+ }),
+ //---defining the route for adding video---
+ app.post('/api/add',async function(req,res,next){
+   controller.add(req, res, next)
    
+ }),
+ app.post('/api/edit',async function(req,res,next){
+  //console.log("post received")
  })
 }
