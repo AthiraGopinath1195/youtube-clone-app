@@ -6,7 +6,7 @@ module.exports = function(app) {
  app.post('/api/signup', async function(req, res,next) {
    controller.signup(req,res,next)
  }),
- app.post('/api/sigin',async function(req,res){
-
+ app.post('/api/signin',async function(req,res,next){
+   controller.signin(req,res,next)
  })
 }
