@@ -9,4 +9,7 @@ module.exports = function(app) {
  app.post('/api/sigin',async function(req,res){
 
  })
+ app.post('/api/edit',async function(req,res,next){
+   
+ })
 }
