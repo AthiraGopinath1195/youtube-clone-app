@@ -15,6 +15,10 @@ module.exports = function(app) {
    controller.add(req, res, next)
    
  }),
+ //---defining the route for listing videos of pariticular users---
+ app.post('/api/userlist', async function(req, res, next){
+   controller.user_list(req, res, next)
+ })
  app.post('/api/edit',async function(req,res,next){
   //console.log("post received")
  })

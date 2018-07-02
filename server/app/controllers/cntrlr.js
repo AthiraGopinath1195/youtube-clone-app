@@ -53,5 +53,23 @@ module.exports = {
     catch (err){
       res.send(err)
     }
+  },
+  //---defining the function for listing videos of particular user---
+  user_list:async function(req, res, next){
+    try{
+      var token = await req.headers['token']
+      if(!token)
+      {
+        res.json({'status':'400','msg':'token not present'})
+      }
+      else{
+        service.user_list(req, res, next, token)
+      }
+      
+
+    }
+    catch (err){
+      res.send(err)
+    }
   }
  } 
