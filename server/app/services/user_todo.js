@@ -108,5 +108,47 @@ module.exports = {
             })
         }
     })
+  },
+  //---defining the function for listing  videos of particular users on mlab---
+  user_list:async function(req, res, next, token){
+
+    jwt.verify(token,'secret',function(err,decoded){
+      if(err)
+      {
+          res.json({'status':'400','msg':'token authentication failed'})
+      }
+      else
+      {
+          user.findOne({email:decoded.email},async function(err,docs){
+              if(err)
+              {
+                  res.json({"status":"400","msg":"db error"})
+              }
+              else if(docs==null){
+                  res.json({'status':'400','msg':'no such user found'})
+              }
+              else
+              {
+                  video.find({user_id:docs._id},{videourl:1,_id:0},function(err,docs1){
+                    if(err)
+                    {
+                      res.json({"status":"400","msg":"db error"})
+                    }
+                    else if(docs1==null)
+                    {
+                      res.json({"status":"400","msg":"No videos added by this user"})
+                    }
+                    else
+                    {
+                      var urls = docs1
+                      res.json({"status":"200","msg":urls})
+                    }
+                  })
+                  
+              }
+          })
+      }
+  })
+
   }
 }
