@@ -7,7 +7,7 @@ const videoSchema = mongoose.Schema(
     title: String,
     videourl: String,
     description: String,
-    key: String,
+    key: [String],
     user_id: Object,
   },
 );
