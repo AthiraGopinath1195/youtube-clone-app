@@ -1,13 +1,13 @@
-//model/comment.js
-const mongoose = require ('mongoose')
+// model/comment.js
+const mongoose = require('mongoose');
 
-//defining schema
+// defining schema
 const commentSchema = mongoose.Schema(
   {
     comment: String,
     videoid: Object,
-    userid: Object
-  }
-)
+    userid: Object,
+  },
+);
 
-module.exports = mongoose.model('Comment',commentSchema)
+module.exports = mongoose.model('Comment', commentSchema);

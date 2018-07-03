@@ -1,15 +1,15 @@
-//model/video.js
-const mongoose = require ('mongoose')
+// model/video.js
+const mongoose = require('mongoose');
 
-//defining schema
+//  defining schema
 const videoSchema = mongoose.Schema(
   {
     title: String,
     videourl: String,
     description: String,
     key: String,
-    user_id: Object
-  }
-)
+    user_id: Object,
+  },
+);
 
-module.exports = mongoose.model('Video',videoSchema)
+module.exports = mongoose.model('Video', videoSchema);

@@ -59,33 +59,25 @@ module.exports = {
     })
   },
   //---defining the function for adding video on mlab---
-    video_add:async function(req, res, next, token, title, videourl, description, key){
-
-      jwt.verify(token,'secret',function(err,decoded){
-        if(err)
-        {
-            res.json({'status':'400','msg':'token authentication failed'})
-        }
-        else
-        {
-            user.findOne({email:decoded.email},async function(err,docs){
-                if(err)
-                {
-                    res.json({"status":"400","msg":"db error"})
-                }
-                else if(docs==null){
-                    res.json({'status':'400','msg':'no such user found'})
-                }
-                else
-                {
-                    var userData = await new video({
+    video_add: (req, res, next, token, title, videourl, description, key) => {
+      jwt.verify(token, 'secret', (err, decoded) => {
+        if (err) {
+          res.json({ status: '400', msg: 'token authentication failed' });
+        } else {
+            user.findOne({ email: decoded.email }, async (err, docs) => {
+                if (err) {
+                  res.json({ status: '400', msg: 'db error' });
+                } else if (docs == null) { 
+                  res.json({ status: '400', msg: 'no such user found' });                }
+                } else {
+                  var userData = await new video({
                       title : title,
                       videourl : videourl,
                       description : description,
                       key : key,
                       user_id : docs._id
                     })
-                    video.findOne({videourl:videourl},function(err,docs1){
+                     video.findOne({videourl:videourl},function(err,docs1){
                       if(err)
                       {
                         res.json({"status":"400","msg":"db error"})
@@ -103,12 +95,13 @@ module.exports = {
                         res.json({"status":"400","msg":"url already exist"})
                       }
                     })
-                    
+                  }
                 }
-            })
-        }
-    })
-  },
+              )
+            }
+          }
+        )
+      },
   //---defining the function for listing  videos of particular users on mlab---
   user_list:async function(req, res, next, token){
 

@@ -19,7 +19,9 @@
   "homepage": "https://github.com/AthiraGopinath1195/youtube-clone-app#readme",
   "dependencies": {
     "bcrypt": "^2.0.1",
+    "body-parser": "^1.18.3",
     "cors": "^2.8.4",
+    "express": "^4.16.3",
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.1.7",
     "morgan": "^1.9.0"

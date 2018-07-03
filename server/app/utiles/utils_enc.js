@@ -1,11 +1,14 @@
-const bcrypt = require ('bcrypt')
-const saltRounds = 10
-module.exports = {
- encrypt :function(password){
-  return (bcrypt.hashSync(password,saltRounds))
- },
- decrypt : function(password,password1){
-  return (bcrypt.compareSync(password, password1))
-}
+const bcrypt = require('bcrypt');
 
-}
+const saltRounds = 10;
+
+module.exports = {
+  encrypt: (password) => {
+    const hash = bcrypt.hashSync(password, saltRounds);
+    return hash;
+  },
+  decrypt: (password, password1) => {
+    const decrypt = bcrypt.compareSync(password, password1);
+    return decrypt;
+  },
+};
