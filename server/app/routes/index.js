@@ -26,7 +26,14 @@ module.exports = (app) => {
   });
   // end
 
+  // defining the route for editing videos of particular user
   app.post('/api/edit', async (req, res, next) => {
     controller.video_edit(req, res, next);
+  });
+  // end
+
+  // defining the route for deleting videos of a particular user
+  app.post('/api/delete', async (req, res, next) => {
+    controller.video_save(req, res, next);
   });
 };

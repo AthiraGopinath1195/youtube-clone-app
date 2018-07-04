@@ -111,27 +111,32 @@ module.exports = {
   },
   // defining the function for editing video details
   video_edit: async (req, res, next, token, videoIds, titles, videourls, descriptions, keys) => {
-    Video.findOne({ _id: videoIds }, (err, docs) => {
+    jwt.verify(token, 'secret', (err, decoded) => {
       if (err) {
-        res.json({ status: '400', msg: 'db error' });
-      } else if (docs == null) {
-        res.json({ status: '400', msg: 'no such video found' });
+        res.json({ status: 400, msg: 'token authentication failed' });
       } else {
-        Video.update({ video_id: videoIds },
-          { $push: { title: titles, description: descriptions, key: keys } }, (err1, docs2) => {
-            if (docs2) {
-              res.json({
-                status: '200',
-                msg: {
-                  title: titles,
-                  videourl: videourls,
-                  description: descriptions,
-                  key: keys,
-                },
-              });
-            }
+        Video.findOne({ _id: videoIds }, (err, docs) => {
+        if (err) {
+          res.json({ status: '400', msg: 'db error' });
+        } else if (docs == null) {
+          res.json({ status: '400', msg: 'no such video found' });
+        } else {
+          Video.update({ video_id: videoIds },
+            { $push: { title: titles, description: descriptions, key: keys } }, (err1, docs2) => {
+              if (docs2) {
+                res.json({
+                  status: '200',
+                  msg: {
+                    title: titles,
+                    videourl: videourls,
+                    description: descriptions,
+                    key: keys,
+                  },
+                });
+              }
           });
-      }
-    });
+        }
+      });
+    }
   },
 };

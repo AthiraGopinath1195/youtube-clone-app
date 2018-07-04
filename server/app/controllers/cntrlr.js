@@ -83,4 +83,12 @@ module.exports = {
       res.send(err);
     }
   },
+  // ---defining the function to delete the videos added
+  // video_delete: async (req, res, next) => {
+  //   try {
+  //     const token = await req.headers.token;
+  //   } catch (err) {
+
+  //   }
+  // },
 };
