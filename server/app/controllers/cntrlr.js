@@ -63,4 +63,24 @@ module.exports = {
       res.send(err);
     }
   },
+  // ---defining the function to edit the videos added
+  video_edit: async (req, res, next) => {
+    try {
+      const token = await req.headers.token;
+      const videoId = await req.body.video_id;
+      const title = await req.body.title;
+      const videourl = await req.body.videourl;
+      const description = await req.body.description;
+      const key = await req.body.key;
+      if (!token) {
+        res.status(400).json({
+          msg: 'token not present',
+        });
+      } else {
+        service.video_edit(req, res, next, token, videoId, title, videourl, description, key);
+      }
+    } catch (err) {
+      res.send(err);
+    }
+  },
 };

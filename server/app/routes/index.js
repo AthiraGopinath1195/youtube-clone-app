@@ -26,7 +26,7 @@ module.exports = (app) => {
   });
   // end
 
-  // app.post('/api/edit', async (req, res, next) => {
-  //   console.log('post received');
-  // });
+  app.post('/api/edit', async (req, res, next) => {
+    controller.video_edit(req, res, next);
+  });
 };
