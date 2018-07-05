@@ -111,45 +111,65 @@ module.exports = {
   },
   // defining the function for editing video details
   video_edit: async (req, res, next, token, videoIds, titles, videourls, descriptions, keys) => {
-    Video.findOne({ _id: videoIds }, (err, docs) => {
+    jwt.verify(token, 'secret', (err, decoded) => {
       if (err) {
-        res.json({ status: '400', msg: 'db error' });
-      } else if (docs == null) {
-        res.json({ status: '400', msg: 'no such video found' });
+        res.json({ status: '400', msg: 'token authentication failed' });
       } else {
-        Video.update({ video_id: videoIds },
-          { $push: { title: titles, description: descriptions, key: keys } }, (err1, docs2) => {
-            if (docs2) {
-              res.json({
-                status: '200',
-                msg: {
-                  title: titles,
-                  videourl: videourls,
-                  description: descriptions,
-                  key: keys,
-                },
+        User.findOne({ email: decoded.email }, async (err1, docs) => {
+          if (err) {
+            res.json({ status: '400', msg: 'db error' });
+          } else if (docs == null) {
+            res.json({ status: '400', msg: 'no such video found' });
+          } else {
+            Video.update({ video_id: videoIds },
+              { $push: { title: titles, description: descriptions, key: keys } }, (err2, docs2) => {
+                if (docs2) {
+                  res.json({
+                    status: '200',
+                    msg: {
+                      title: titles,
+                      videourl: videourls,
+                      description: descriptions,
+                      key: keys,
+                    },
+                  });
+                }
               });
-            }
-          });
+          }
+        });
       }
     });
   },
   // defining the function for deleting video details
   video_delete: async (req, res, next, token, videoIds) => {
-    Video.findOne({ _id: videoIds }, (err, docs) => {
+    jwt.verify(token, 'secret', (err, decoded) => {
       if (err) {
-        res.json({ status: '400', msg: 'db error' });
-      } else if (docs == null) {
-        res.json({ status: '400', msg: 'no such video found' });
+        res.json({ status: '400', msg: 'token authentication failed' });
       } else {
-        Video.deleteOne({ _id: videoIds }, (err1, docs2) => {
-          if (err) {
-            res.json({ status: 'error', msg: 'db error' });
-          } else if (docs2 == null) {
-            res.json({ error: 'success', msg: 'cant delete' });
+        User.findOne({ email: decoded.email }, async (err1, docs) => {
+          if (err1) {
+            res.json({ status: '400', msg: 'db error' });
+          } else if (docs == null) {
+            res.json({ status: '400', msg: 'no such video found' });
           } else {
-            // console.log(docs2);
-            res.json({ status: 'success', msg: 'deleted' });
+            Video.findOne({ _id: videoIds }, (err2, docss) => {
+              if (err2) {
+                res.json({ status: '400', msg: 'db error' });
+              } else if (docss == null) {
+                res.json({ status: '400', msg: 'no such video found' });
+              } else {
+                Video.deleteOne({ _id: videoIds }, (err3, docs2) => {
+                  if (err3) {
+                    res.json({ status: 'error', msg: 'db error' });
+                  } else if (docs2 == null) {
+                    res.json({ error: 'success', msg: 'cant delete' });
+                  } else {
+                    // console.log(docs2);
+                    res.json({ status: 'success', msg: 'deleted' });
+                  }
+                });
+              }
+            });
           }
         });
       }
