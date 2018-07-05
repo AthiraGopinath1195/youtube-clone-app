@@ -84,11 +84,20 @@ module.exports = {
     }
   },
   // ---defining the function to delete the videos added
-  // video_delete: async (req, res, next) => {
-  //   try {
-  //     const token = await req.headers.token;
-  //   } catch (err) {
-
-  //   }
-  // },
+  video_delete: async (req, res, next) => {
+    try {
+      const token = await req.headers.token;
+      const videoId = await req.body.video_id;
+      // console.log(videoId);
+      if (!token) {
+        res.status(400).json({
+          msg: 'token not present',
+        });
+      } else {
+        service.video_delete(req, res, next, token, videoId);
+      }
+    } catch (err) {
+      res.send(err);
+    }
+  },
 };

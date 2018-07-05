@@ -34,6 +34,6 @@ module.exports = (app) => {
 
   // defining the route for deleting videos of a particular user
   app.post('/api/delete', async (req, res, next) => {
-    controller.video_save(req, res, next);
+    controller.video_delete(req, res, next);
   });
 };
