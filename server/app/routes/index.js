@@ -53,6 +53,7 @@ module.exports = (app) => {
     controller.comment(req, res, next);
   });
   // end
+
   // defining the route for comment listing of videos
   app.post('/api/commentlist', async (req, res, next) => {
     controller.commentlist(req, res, next);

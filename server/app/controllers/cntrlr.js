@@ -149,4 +149,18 @@ module.exports = {
       res.send(err);
     }
   },
+  commentlist: async (req, res, next) => {
+    try {
+      const token = await req.headers.token;
+      const videoId = await req.body.videoId;
+      // console.log(videoId);
+      if (!token) {
+        res.status(400).json({ msg: 'token not present' });
+      } else {
+        service.commentlist(req, res, next, token, videoId);
+      }
+    } catch (err) {
+      res.send(err);
+    }
+  },
 };
