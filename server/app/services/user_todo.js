@@ -292,10 +292,17 @@ module.exports = {
                 const matches = [];
                 // console.log('Does', arrays);
                 const arr = arrays[0];
-                Video.find({ key: { $in: arr } }, { videourl: 1, _id: 1 }, (err3, docs2) => {
-                  matches.push(docs2);
-                  res.json(matches);
-                });
+                Video.find({ key: { $in: arr }, _id: { $ne: videoIds } },
+                  { videourl: 1, _id: 1 }, (err3, docs2) => {
+                    if (err3) {
+                      res.json({ status: 400, msg: 'db error' });
+                    } else if (docs2 == null) {
+                      res.json({ status: 200, msg: 'No recommendations found' });
+                    } else {
+                      matches.push(docs2);
+                      res.json(matches);
+                    }
+                  });
               }
             });
             // res.json({ status: '200', msg: matches })
