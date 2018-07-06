@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/users.js');
 const Video = require('../models/video.js');
 const util = require('../utiles/utils_enc.js');
-
+const Commentdb = require('../models/comment.js');
 
 module.exports = {
 
@@ -168,6 +168,99 @@ module.exports = {
                     res.json({ status: 'success', msg: 'deleted' });
                   }
                 });
+              }
+            });
+          }
+        });
+      }
+    });
+  },
+  // defining the function to list the details of a video
+  video_player: async (req, res, next, token, videoIds) => {
+    jwt.verify(token, 'secret', (err, decoded) => {
+      if (err) {
+        res.json({ status: '400', msg: 'token authentication failed' });
+      } else {
+        User.findOne({ email: decoded.email }, async (err1, docs) => {
+          if (err1) {
+            res.json({ status: '400', msg: 'db error1' });
+          } else if (docs == null) {
+            res.json({ status: '400', msg: 'no such user found' });
+          } else {
+            Video.findOne({ _id: videoIds }, async (err2, docss) => {
+              if (err2) {
+                res.json({ status: '400', msg: 'db error2' });
+              } else if (docss == null) {
+                res.json({ status: '400', msg: 'no such video found' });
+              } else {
+                res.json({ status: 'success', msg: docs });
+              }
+            });
+          }
+        });
+      }
+    });
+  },
+  keywordsearch: async (req, res, next, token, keyword) => {
+    jwt.verify(token, 'secret', (err, decoded) => {
+      if (err) {
+        res.json({ status: '400', msg: 'token authentication failed' });
+      } else {
+        User.findOne({ email: decoded.email }, async (err1, docs) => {
+          if (err1) {
+            res.json({ status: '400', msg: 'db error' });
+          } else if (docs == null) {
+            res.json({ status: '400', msg: 'no such user found' });
+          } else {
+            Video.find({ key: keyword }, async (err2, docs1) => {
+              if (docs1 == null) {
+                res.json({ status: '400', msg: 'No videos added by this user' });
+              } else {
+                res.json({ status: '200', msg: docs1 });
+              }
+            });
+          }
+        });
+      }
+    });
+  },
+  comment: (req, res, next, token, comments, videoids, userids) => {
+    const userData = new Commentdb({
+      comment: comments,
+      videoid: videoids,
+      userid: userids,
+    });
+    // console.log(comments);
+    User.findOne({ _id: userData.userids }, (err, docs) => {
+      if (err) {
+        res.json({ status: '400', msg: 'db error' });
+      } else if (docs == null) {
+        userData.save().then(() => {
+          res.json({ status: '200', msg: 'Success' });
+        });
+      } else { res.json({ status: '400', msg: 'User exist' }); }
+    });
+  },
+  commentlist: async (req, res, next, token, video) => {
+    // console.log(video);
+    jwt.verify(token, 'secret', (err, decoded) => {
+      if (err) {
+        res.json({ status: 400, msg: 'token authentication failed' });
+      } else {
+        User.findOne({ email: decoded.email }, async (errs, docs) => {
+          if (errs) {
+            res.json({ status: '400', msg: 'db error' });
+          } else if (docs == null) {
+            res.json({ status: '400', msg: 'no such user found' });
+          } else {
+            // console.log(video);
+            Commentdb.find({ _id: video }, (err1, docs1) => {
+              if (err1) {
+                res.json({ status: '400', msg: err1 });
+              } else if (docs1 == null) {
+                res.json({ status: '400', msg: 'No comments added by this user' });
+              } else {
+                res.json({ status: '200', msg: docs1 });
               }
             });
           }

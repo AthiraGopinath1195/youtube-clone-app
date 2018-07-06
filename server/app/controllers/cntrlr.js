@@ -100,4 +100,53 @@ module.exports = {
       res.send(err);
     }
   },
+  // ---defining the function to list a video details
+  video_player: async (req, res, next) => {
+    try {
+      const token = await req.headers.token;
+      const videoId = await req.body.video_id;
+      if (!token) {
+        res.status(400).json({
+          msg: 'token not present',
+        });
+      } else {
+        service.video_player(req, res, next, token, videoId);
+      }
+    } catch (err) {
+      res.send(err);
+    }
+  },
+  keywordsearch: async (req, res, next) => {
+    try {
+      const token = await req.headers.token;
+      const keyword = await req.body.keyword;
+      if (!token) {
+        res.status(400).json({
+          msg: 'token not present',
+        });
+      } else {
+        service.keywordsearch(req, res, next, token, keyword);
+      }
+    } catch (err) {
+      res.send(err);
+    }
+  },
+  comment: async (req, res, next) => {
+    try {
+      const token = await req.headers.token;
+      const comments = await req.body.comments;
+      const videoids = await req.body.videoids;
+      const userids = await req.body.userids;
+      if (!token) {
+        res.status(400).json({
+          msg: 'token not present',
+        });
+      } else {
+        // console.log(comments);
+        service.comment(req, res, next, token, comments, videoids, userids);
+      }
+    } catch (err) {
+      res.send(err);
+    }
+  },
 };
