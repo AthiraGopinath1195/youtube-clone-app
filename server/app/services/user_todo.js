@@ -268,4 +268,52 @@ module.exports = {
       }
     });
   },
+  recommendation: async (req, res, next, token, videoIds) => {
+    const arrays = [];
+    jwt.verify(token, 'secret', (err, decoded) => {
+      if (err) {
+        res.json({ status: '400', msg: 'token authentication failed' });
+      } else {
+        User.findOne({ email: decoded.email }, (err1, docs) => {
+          if (err1) {
+            res.json({ status: '400', msg: 'db error' });
+          } else if (docs == null) {
+            res.json({ status: '400', msg: 'no such user found' });
+          } else {
+            Video.findOne({ _id: videoIds }, (err2, docs1) => {
+              if (err2) {
+                res.json({ status: 400, msg: 'db error' });
+              } else if (docs1 == null) {
+                res.json({ status: 200, msg: 'vedio not found' });
+              } else {
+                arrays.push(docs1.key);
+                // console.log('Dont', arrays.length);
+                // callback(arrays);
+                const matches = [];
+                // console.log('Does', arrays);
+                const arr = arrays[0];
+                Video.find({ key: { $in: arr } }, { videourl: 1, _id: 1 }, (err3, docs2) => {
+                  matches.push(docs2);
+                  res.json(matches);
+                });
+              }
+            });
+            // res.json({ status: '200', msg: matches })
+          }
+        });
+      }
+    });
+  },
+  // defining the function for listing  videos of particular users on mlab
+  list: async (req, res, next) => {
+    Video.find({ }, { videourl: 1, _id: 0 }, (err1, docs1) => {
+      if (err1) {
+        res.json({ status: '400', msg: err1 });
+      } else if (docs1 == null) {
+        res.json({ status: '400', msg: 'No videos added by this user' });
+      } else {
+        res.json({ status: '200', msg: docs1 });
+      }
+    });
+  },
 };

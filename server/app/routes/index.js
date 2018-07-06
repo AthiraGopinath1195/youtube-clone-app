@@ -59,4 +59,13 @@ module.exports = (app) => {
     controller.commentlist(req, res, next);
   });
   // end
+  // defining the route for deleting videos of a particular user
+  app.post('/api/recommendation', async (req, res, next) => {
+    controller.recommendation(req, res, next);
+  });
+  //  defining the route for listing all videos
+  app.post('/api/list', async (req, res, next) => {
+    controller.list(req, res, next);
+  });
+  // end
 };

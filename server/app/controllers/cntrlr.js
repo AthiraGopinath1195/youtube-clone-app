@@ -163,4 +163,28 @@ module.exports = {
       res.send(err);
     }
   },
+  // ---defining the function recommend videos.
+  recommendation: async (req, res, next) => {
+    try {
+      const token = await req.headers.token;
+      const videoId = await req.body.video_id;
+      if (!token) {
+        res.status(400).json({
+          msg: 'token not present',
+        });
+      } else {
+        service.recommendation(req, res, next, token, videoId);
+      }
+    } catch (err) {
+      res.send(err);
+    }
+  },
+  // defining the funtion for listing videos.
+  list: async (req, res, next) => {
+    try {
+      service.list(req, res, next);
+    } catch (err) {
+      res.send(err);
+    }
+  },
 };
